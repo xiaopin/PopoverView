@@ -15,6 +15,8 @@
 ## Requirements
 
 - iOS8.0+
+- Swift4.0
+- Xcode9.0+
 
 
 ## Usage
@@ -25,24 +27,29 @@
 
 1. 弹出控制器
 
-```ObjC
-UIViewController *vc = [[UIViewController alloc] init];
-[self presentPopoverPresentationController:vc preferredContentSize:CGSizeMake(200.0, 300.0) shouldDismissPopover:YES completion:^{
-	NSLog(@"Popover show finish.");
-}];
+```Swift
+let contentViewController = UIViewController()
+contentViewController.view.backgroundColor = .purple
+presentPopoverPresentationController(contentViewController, preferredContentSize: CGSize(width: 200.0, height: 300.0), shouldDismissPopover: true) {
+    print("ViewController show finish.")
+}
 ```
 
 2. 弹出自定义视图
 
-```ObjC
-UIView *contentView = [[UIView alloc] init];
-contentView.backgroundColor = [UIColor purpleColor];
-[self presentPopoverView:contentView preferredContentSize:CGSizeMake(200.0, 300.0) shouldDismissPopover:YES completion:^{
+```Swift
+let contentView = UIView()
+contentView.layer.cornerRadius = 14.0
+contentView.layer.masksToBounds = true
+contentView.backgroundColor = .purple
+presentPopoverView(contentView, preferredContentSize: CGSize(width: 200.0, height: 300.0), shouldDismissPopover: false) {
+	print("View is showed.");
 	// 3秒后自动关闭
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		[self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-	});
-}];
+	DispatchQueue.main.asyncAfter(deadline: .now()+3.0, execute: {
+		self.presentedViewController?.dismiss(animated: true, completion: nil)
+	})
+}
+
 ```
 
 ## License
