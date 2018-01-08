@@ -31,9 +31,11 @@ extension UIViewController {
     func presentPopoverPresentationController(_ contentViewController: UIViewController, preferredContentSize: CGSize, shouldDismissPopover: Bool, completion: (() -> Void)?) {
         contentViewController.modalPresentationStyle = .custom
         contentViewController.preferredContentSize = preferredContentSize
+        
+        let transitioningDelegate = PopoverTransitioningDelegate()
+        contentViewController.transitioningDelegate = transitioningDelegate
         // Keep strong references.
-        strongTransitioningDelegate = PopoverTransitioningDelegate()
-        contentViewController.transitioningDelegate = strongTransitioningDelegate
+        contentViewController.strongTransitioningDelegate = transitioningDelegate
         
         if let popoverPresentationController = contentViewController.presentationController as? PopoverPresentationController {
             popoverPresentationController.isShouldDismissPopover = shouldDismissPopover
