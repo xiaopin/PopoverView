@@ -1,6 +1,6 @@
 //
 //  UIViewController+CenterPopover.swift
-//  VBemall
+//  https://github.com/xiaopin/PopoverView.git  `Swift` branch
 //
 //  Created by nhope on 2018/1/5.
 //
@@ -28,6 +28,7 @@ extension UIViewController {
     ///   - preferredContentSize:   弹窗大小
     ///   - shouldDismissPopover:   当点击弹窗内容之外的区域时是否关闭弹窗
     ///   - completion:             回调
+    @available(iOS 8.0, *)
     func presentPopoverPresentationController(_ contentViewController: UIViewController, preferredContentSize: CGSize, shouldDismissPopover: Bool, completion: (() -> Void)?) {
         contentViewController.modalPresentationStyle = .custom
         contentViewController.preferredContentSize = preferredContentSize
@@ -56,6 +57,7 @@ extension UIViewController {
     ///   - preferredContentSize:   弹窗大小
     ///   - shouldDismissPopover:   当点击弹窗内容之外的区域时是否关闭弹窗
     ///   - completion:             回调
+    @available(iOS 8.0, *)
     func presentPopoverView(_ contentView: UIView, preferredContentSize: CGSize, shouldDismissPopover: Bool, completion: (() -> Void)?) {
         let contentViewController = UIViewController()
         contentViewController.view.backgroundColor = .clear
