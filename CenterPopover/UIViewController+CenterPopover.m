@@ -11,26 +11,6 @@
 #import "XPPopoverTransitioner.h"
 #import <objc/runtime.h>
 
-#pragma mark -
-
-@interface UIViewController (StrongDelegate)
-@property (nonatomic, strong) id strongTransitioningDelegate;
-@end
-
-@implementation UIViewController (StrongDelegate)
-
-- (void)setStrongTransitioningDelegate:(id)strongTransitioningDelegate {
-    objc_setAssociatedObject(self, @selector(strongTransitioningDelegate), strongTransitioningDelegate, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (id)strongTransitioningDelegate {
-    return objc_getAssociatedObject(self, @selector(strongTransitioningDelegate));
-}
-
-@end
-
-
-#pragma mark -
 
 @implementation UIViewController (CenterPopover)
 
@@ -42,7 +22,8 @@
     XPPopoverTransitioningDelegate *transitioningDelegate = [[XPPopoverTransitioningDelegate alloc] init];
     contentViewController.transitioningDelegate = transitioningDelegate;
     // Keep strong references.
-    contentViewController.strongTransitioningDelegate = transitioningDelegate;
+    static char delegateKey;
+    objc_setAssociatedObject(contentViewController, &delegateKey, transitioningDelegate, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     XPPopoverPresentationController *presentationController = (XPPopoverPresentationController *)contentViewController.presentationController;
     presentationController.shouldDismissPopover = shouldDismissPopover;
