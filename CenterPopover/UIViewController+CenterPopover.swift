@@ -12,15 +12,6 @@ private var key: Void?
 
 extension UIViewController {
     
-    private var strongTransitioningDelegate: UIViewControllerTransitioningDelegate? {
-        set {
-            objc_setAssociatedObject(self, &key, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-        get {
-            return objc_getAssociatedObject(self, &key) as? UIViewControllerTransitioningDelegate
-        }
-    }
-    
     /// 显示一个居中Popover视图控制器
     ///
     /// - Parameters:
@@ -36,7 +27,7 @@ extension UIViewController {
         let transitioningDelegate = PopoverTransitioningDelegate()
         contentViewController.transitioningDelegate = transitioningDelegate
         // Keep strong references.
-        contentViewController.strongTransitioningDelegate = transitioningDelegate
+        objc_setAssociatedObject(contentViewController, &key, transitioningDelegate, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         
         if let popoverPresentationController = contentViewController.presentationController as? PopoverPresentationController {
             popoverPresentationController.isShouldDismissPopover = shouldDismissPopover
